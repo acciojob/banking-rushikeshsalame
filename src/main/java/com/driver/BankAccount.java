@@ -34,44 +34,42 @@ public class BankAccount {
         //Each digit of an account number can lie between 0 and 9 (both inclusive)
         //Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
         //If it is not possible, throw "Account Number can not be generated" exception
-       if(digits<=0){
-           throw  new Exception("Number of digit should be positive");
-       }
-       if(sum<0 || sum>digits*9){
-           throw new Exception("Account number can be generate the given sum ");
-       }
-       StringBuilder accountNumber = new StringBuilder();
-       for(int i=0; i<digits;i++){
-           int digit=0;
-
-           if(i==digits-1){
-               digit =sum;
-           }
-           else if(sum>9){
-               digit =9;
-               sum -= 9;
-           }
-           else{
-               digit = sum;
-               sum=0;
-           }
-           accountNumber.append(digit);
-       }
-
-        return accountNumber.toString();
+        if(sum> digits*9){
+            throw  new Exception("Account Number can not be generated ");
+        }
+        String ans=" ";
+        int count=0;
+        while(sum>0){
+            if(sum>=9){
+                sum -=9;
+                ans +=9;
+            }
+            else{
+                ans +=sum;
+                sum=0;
+            }
+            count++;
+        }
+        while(count<digits){
+            ans +="0";
+            count++;
+        }
+        return ans;
     }
 
     public void deposit(double amount) {
         //add amount to balance
-        this.balance += amount;
+        balance += amount;
     }
 
     public void withdraw(double amount) throws Exception {
         // Remember to throw "Insufficient Balance" exception, if the remaining amount would be less than minimum balance
-       if(this.balance-amount < this.minBalance){
+       if(balance-amount < minBalance){
            throw new Exception("Insufficient Balance");
        }
-       this.balance -=amount;
+       else {
+           balance -= amount;
+       }
     }
 
 }
